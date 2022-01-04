@@ -1,0 +1,64 @@
+Enable GKE in Console
+
+        Create Cluster 
+        # gcloud container clusters create cluster-1 --num-nodes 1 --zone us-west2-a
+                Check on GKE ENGINE if cluster is created with cluster-1
+
+
+        Create deployment.yaml ( don’t forget to replace project id)
+        NOTE: 
+                If you have pushed image to GCR 
+                         image: gcr.io/<project ID>/myapp:latest
+                If you have pushed image to Docker hub
+                        image: docker.io/<username>/myapp:latest
+        Replace with these lines in deployment.yaml for image
+        
+________________
+# cat > deployment.yaml
+                apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp-app
+        # Replace below line for gcr or docker hub accordingly
+        image: gcr.io/<project ID>/myapp:latest
+        # This app listens on port 8080 for web traffic by default.
+        ports:
+        - containerPort: 8080
+        env:
+          - name: PORT
+            value: "8080"
+        
+        Create service.yaml
+        # cat > service.yaml
+        apiVersion: v1
+kind: Service
+metadata:
+  name: myapp
+spec:
+  type: LoadBalancer
+  selector:
+    app: myapp
+  ports:
+  - port: 80
+    targetPort: 8080
+        
+        # kubectl apply -f deployment.yaml
+        # kubectl apply -f service.yaml
+# kubectl get deployments
+# kubectl get all
+        # kubectl get services
+                Try again if external ip is not assigned
+                Copy external ip and paste on browser (35.222.sth.sth/ )
+        # kubectl get all

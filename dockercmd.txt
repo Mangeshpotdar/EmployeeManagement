@@ -1,0 +1,88 @@
+#cmd login to hub
+dokcer login -u mangesh98
+
+docker build -t <name of user>/<image name>:<version tag> .    //-t for tag 
+docker images //list docker images 
+docker rm -f <image id> //remove image
+
+docker push <username>/<imagename>:<version> // to push image to docker hub
+docker run -p <export>:<inport> <image name >
+
+docker pull <image name tobe pulled >:<version>  //to pull the image from hub
+docker run -p<export>:<inport> --name- <name> <image name to be pulled  > 
+
+docker rmi -f <image id>
+
+docker logs <conainer id > //to display log
+
+docker run -p 8888:8888 -v /var/www/logs mangesh98/myapp  //to use volume to save
+
+
+
+ 
+#FOR Node
+
+create .dockerignore
+
+
+docker build -t <name of user>/<name>:<version> -f <name of nodes docker file> .
+
+
+#Connecting to containers
+
+docker network create --driver brigde <network name>
+
+docker run -d --net= <network name>  --name <name of container > <original name> //for database
+
+docker run -d -p 3000:3000 --net=<network name> --name <container name> <image name> //for application
+
+docker exec -it <container name/id> Powershell  //to open interactive iterminal
+
+#docker-compose
+docker-compose buid
+docker-compose up
+docker-compose down
+
+
+
+
+
+
+
+
+FROM maven:3.5-jdk-8-alpine as builder
+WORKDIR /app
+COPY pom.xml ./
+COPY src ./src/
+RUN mvn package -DskipTests
+COPY --from=builder /<spring boot app path to jar>/<jar file name> /myapp.jar
+
+#NEW
+FROM openjdk:11
+EXPOSE 8888
+ADD target/employee-management-0.0.1-SNAPSHOT.jar employee-management-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java","-jar","employee-management-0.0.1-SNAPSHOT.jar"]
+
+
+#docker-compose file for mysql
+
+mkdir db-docker
+cd db-docker
+touch docker-compose.yml
+
+
+docker volume create mysql-volume  //to create volume to persist data
+
+docker run --name=mysql -p3307:3306 -v mysql-volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=0000 -d mysql:latest
+
+docker exec -it mysql bash
+ mysql -u root -p
+
+CREATE DATABASE EmpDB; //omly if not created 
+
+SHOW DATABASES;
+USE EmpDB;
+SHOW TABLES;
+SELECT * FROM employee_data;
+
+
