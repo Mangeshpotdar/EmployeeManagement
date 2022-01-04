@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MANAGEMENT APPLICATION </title>
+</head>
+<body >
+    <h1 style="text-align:center">Employee Management</h1>
+
+    <form action="/add" method="POST"  >
+        <pre >
+            Enter your ID             : <input type="text" name="empid" pattern="\d+"  required><br>
+            Enter your Name           : <input type="text"   name="empName" pattern="[A-Za-z_ ]+" required >    <br>
+            Enter your Role           : <select name="empRole" id="empRole" required>
+                <option value="">None</option>
+                <option value="Manager">Manager</option>
+                <option value="Developer">Developer</option>
+                <option value="Tester">Tester</option>
+                <option value="Support">Analyst</option>
+              </select>    <br>
+            Enter your Mail           : <input type="email"   name="empMail" pattern="[A-Za-z]+[A-Za-z0-9]+@gmail.com" required>    <br>
+            Enter your Contact No.    : <input type="tel" name="empContact" pattern="[1-9]{1}[0-9]{9}" required  >    <br>
+
+            <input type="submit" value="Save Details">
+        </pre>
+    </form>
+
+
+
+</body>
+
+</html>
