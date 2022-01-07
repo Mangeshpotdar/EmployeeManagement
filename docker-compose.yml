@@ -67,7 +67,7 @@ services:
 networks:
   app-network:
     driver : bridge
-volumes:
-  mysql-volume:
-    name : mysql-volume
+# volumes:
+#   mysql-volume:
+#     name : mysql-volume
 #     external : true
